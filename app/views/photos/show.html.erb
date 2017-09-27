@@ -8,9 +8,15 @@
   <strong><%= @photo.user.email %></strong>
   <%= @photo.description %>
 </p>
+<!-- like button -->
+<%= form_with(model: @photo, method: :patch) do |f| %>
+<% liked = @photo.liked_by?(current_user) %>
+<%= f.hidden_field :liked, value: liked %>
+<%= f.button liked ? 'Unlike' : 'Like' %>
+<% end %>
 
 <% if current_user == @photo.user %>
   <%= link_to 'Edit', edit_photo_path(@photo) %> ·
-  <%= link_to 'Destroy', @photo, method: :delete, data: { confirm: 'Are you sure?' } %> ·
+  <%= link_to 'Destroy', @photo, method: :delete, data: { confirm: 'Are you sure?' } %> 
 <% end %>
 <%= link_to 'Back', photos_path %>
